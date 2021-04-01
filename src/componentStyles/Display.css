@@ -1,0 +1,21 @@
+.result-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 5px;
+    border: 2px solid maroon;
+    height: 30%;
+    border-radius: 10px;
+}
+
+.result {
+    flex: 1;
+    border: 1px solid black;
+    line-height: 40px;
+}
+.query {
+    flex: 1;
+    border: 1px solid black;
+    line-height: 40px;
+}
