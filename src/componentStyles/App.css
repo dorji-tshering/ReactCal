@@ -41,3 +41,11 @@
 .cutter{
     background-color: rgb(236, 6, 6);
 }
+
+/* mobile responsive */
+
+@media screen and (max-width: 400px) {
+    .container{
+        width: 90vw;
+    }
+}
