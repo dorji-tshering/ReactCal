@@ -45,6 +45,12 @@
 /* mobile responsive */ 
 @media screen and (max-width: 550px) {
     .container{
-        width: 90vw;
+        width: 70vw;
+    }
+}
+
+@media screen and (max-width: 450){
+    .container {
+        width: 85vw;
     }
 }
