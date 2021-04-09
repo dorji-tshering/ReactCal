@@ -16,12 +16,14 @@ function App() {
   const pi = (value) => {
 
     if(queryArray.length !== 0 && !['/', 'x', '-', '+', '%'].includes(queryArray[queryArray.length-1])){
-      setQueryArray([...queryArray, 'x', 3.1415926536]);
-      setQuery([...query, 'x', value]);
-    }else{
-      setQueryArray([...queryArray, 3.1415926536]);
-      setQuery([...query, value]);
+       if(queryArray[queryArray.length-1] !== '(') {
+        setQueryArray([...queryArray, 'x', 3.1415926536]);
+        setQuery([...query, 'x', value]);
+        return;
+        }
     }
+    setQueryArray([...queryArray, 3.1415926536]);
+    setQuery([...query, value]); 
   }
 
   //! squareroot thing
@@ -33,6 +35,12 @@ function App() {
   //! display user inputs
   // the changed state isn't accessible in the changing function
   const displayQuery = (value) => {
+    
+    if(['^', ')', '/', 'x', '-', '+', '%'].includes(value) && queryArray.length === 0){
+      setResult('');
+      return;
+    }
+
     if(value === '-' && query.length === 0){
       return;
     }
@@ -41,17 +49,41 @@ function App() {
     } 
     
     if(queryArray[query.length-1] === 3.1415926536 && 
-      !['/', 'x', '-', '+', '%'].includes(value)){
+      !['/', 'x', '-', '+', '%'].includes(value) && value !== ')' && value !== '^' && 
+          !['sin', 'cos', 'tan', 'log', 'ln'].includes(value)){
         setQueryArray([...queryArray, 'x', value]);
         setQuery([...query, 'x', value]);
         return;
     }
 
-    
+    // automatic bracket generation
     if(['sin', 'cos', 'tan', 'log', 'ln', '^'].includes(value)){
+      if(['/', 'x', '-', '+', '%'].includes(queryArray[queryArray.length-1]) && value !== '^'){
+        setQuery([...query, value, '(']);
+        setQueryArray([...queryArray, value, '(']);
+        return;
+      }
+      if(value === '^'){
+        setQuery([...query, value, '(']);
+        setQueryArray([...queryArray, value, '(']);
+        return;
+      }   
+      
+      if(value !== '^' && queryArray.length !== 0 && !['/', 'x', '-', '+', '%'].includes(queryArray[queryArray.length-1])){
+        setQuery([...query, 'x', value, '(']);
+        setQueryArray([...queryArray, 'x', value, '(']);
+        return;
+      }
+
       setQuery([...query, value, '(']);
       setQueryArray([...queryArray, value, '(']);
       return;
+      
+    }
+
+    // automatic 'x' insertion
+    if(true){
+
     }
     
     // automatically add '*' sign before '(' if there is no operator
