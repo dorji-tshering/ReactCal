@@ -10,7 +10,11 @@ function App() {
   const [queryArray, setQueryArray] = useState([]);
   
   useEffect(() =>{
+    if(queryArray.length === 1 && query.length === 1){
+      return;
+    }else{
     displayResult();
+    }
   });
 
   //! display special PI
@@ -510,6 +514,13 @@ function App() {
     }
   } //! end of displayResult  
 
+  //? equals method
+  const equals = () => {
+    setQuery([result]);
+    setQueryArray([result]);
+    setResult('');
+  }
+
   // clear the query area
   const clear = () => {setQuery([]); setResult(0); setQueryArray([])}
 
@@ -563,7 +574,7 @@ function App() {
         <Button value={0} onClick={displayQuery} className='number' />
         <Button value={'.'} onClick={displayQuery} className='number' />
         <Button value={'x'}  onClick={cut} className='cutter' />
-        <Button value={'='}  onClick={displayResult} className='equal' />
+        <Button value={'='}  onClick={equals} className='equal' />
         <Button value={'('} onClick={displayQuery} className='brackets' />
         <Button value={')'} onClick={displayQuery} className='brackets' />
 
