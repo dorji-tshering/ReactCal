@@ -1,13 +1,12 @@
 .container {
+    margin-top: 50px !important;
     display: flex;
     flex-direction: column;
     background-color: rgba(14, 3, 8, 0.815);
     height: 70vh;
     padding: 5px; 
-    width: 250px;
     margin: 30px auto;
     border-radius: 10px;
-    box-shadow: 10px 10px 20px  #b8b9be, -10px -10px 20px black;
 }
 
 .keys {
@@ -43,14 +42,32 @@
 }
 
 /* mobile responsive */ 
+@media screen and (min-width: 800px) {
+    .container {
+        width: 50vw !important;
+    }
+}
+
+@media screen and (min-width: 550px) and (max-width: 800px) {
+    .container {
+        width: 65vw !important;
+    }
+}
+
 @media screen and (max-width: 550px) {
     .container{
-        width: 70vw;
+        width: 60vw !important;
     }
 }
 
 @media screen and (max-width: 450){
     .container {
-        width: 85vw;
+        width: 90vw;
+    }
+}
+
+@media screen and (max-width: 381px) {
+    .container {
+        width: 85vw !important;
     }
 }

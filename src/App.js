@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Button from './components/Button';
 import Display from './components/Display';
 import './componentStyles/App.css';
+import { Container } from 'react-bootstrap';
 
 function App() {
   const [result, setResult] = useState(0);
@@ -28,6 +29,12 @@ function App() {
 
   //! squareroot thing
   const sqrt = (value) => {
+    if(!['/', 'x', '-', '+', '%'].includes(queryArray[queryArray.length-1]) && 
+          queryArray.length !== 0 && queryArray[queryArray.length-1] !== '('){
+            setQueryArray([...queryArray, 'x', 'sqrt', '(']);
+            setQuery([...query, 'x', value, '(']);    
+            return;
+    }
     setQueryArray([...queryArray, 'sqrt', '(']);
     setQuery([...query, value, '(']);    
   }
@@ -69,7 +76,9 @@ function App() {
         return;
       }   
       
-      if(value !== '^' && queryArray.length !== 0 && !['/', 'x', '-', '+', '%'].includes(queryArray[queryArray.length-1])){
+      if(value !== '^' && queryArray.length !== 0 && 
+          !['/', 'x', '-', '+', '%'].includes(queryArray[queryArray.length-1]) && 
+          queryArray[queryArray.length-1] !== '('){
         setQuery([...query, 'x', value, '(']);
         setQueryArray([...queryArray, 'x', value, '(']);
         return;
@@ -235,11 +244,15 @@ function App() {
 
 
     //! main helper
-    const mainHelper = (input) => {
+    const mainHelper = (input, sqrt) => {
+      let operators = ['sin', 'cos', 'tan', 'log', 'ln'];
+      if(sqrt){
+        operators.push('sqrt');
+      }
       for (let i=0; i<input.length; i++){
       
       // trigonometry, logarithm, and squareroot block
-        if(['sin', 'cos', 'tan', 'log', 'sqrt', 'ln'].includes(input[i])){
+        if(operators.includes(input[i])){
           const opera = input[i];
           let valueArray = [];
           let closingBracket = false;
@@ -464,7 +477,7 @@ function App() {
 
            
       //? trigonometry, logarithm, and squreroot block
-        if(['sin', 'cos', 'tan', 'log', 'sqrt', 'ln'].includes(input[i])){
+        if(['sin', 'cos', 'tan', 'log', 'ln'].includes(input[i])){
           let status = mainHelper(input);
           if(status === 'Done'){
             return;
@@ -472,6 +485,16 @@ function App() {
         }  
 
     }  //! end of top level for loop
+
+    // check for any squareroot thing
+    for(let k=0; k<input.length; k++){
+      if(input[k] === 'sqrt'){
+        let status = mainHelper(input, 'sqrt');
+        if(status === 'Done'){
+          return;
+        }
+      }
+    }
 
     //? if there is any brackets
     if(input.includes('(')){
@@ -506,7 +529,7 @@ function App() {
   }
 
   return (
-    <div className="container">
+    <Container className='container'>
       <Display query={query} queryArray={queryArray} result={result}/>
       <div className="keys">
         <Button value={'C'} onClick={clear} className='clear' />
@@ -545,7 +568,7 @@ function App() {
         <Button value={')'} onClick={displayQuery} className='brackets' />
 
       </div>
-    </div>
+    </Container>
   );
 }
 
