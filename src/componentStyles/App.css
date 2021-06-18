@@ -2,7 +2,7 @@
     margin-top: 50px !important;
     display: flex;
     flex-direction: column;
-    background-color: rgba(14, 3, 8, 0.815);
+    background-color: #8b0dc5;
     height: 70vh;
     padding: 5px; 
     margin: 30px auto;
@@ -21,7 +21,7 @@
     background-color: rgba(97, 88, 88, 0.781)
 }
 .brackets{
-    background-color: hotpink;
+    background-color: rgb(94, 4, 49);
 }
 .tlr{
     background-color: rgb(124, 110, 245);
@@ -34,7 +34,7 @@
     color: white;
 }
 .equal{
-    background-color: rgb(10, 240, 10);
+    background-color: rgb(4, 85, 4);
     color: white;
 }
 .cutter{
