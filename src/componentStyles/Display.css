@@ -5,6 +5,7 @@
     height: 30%;
     border-radius: 10px;
     border: 1px solid gray;
+    background: red;
 }
 
 .result {
