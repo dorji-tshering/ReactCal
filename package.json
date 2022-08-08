@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "http://dorji-tshering.github.io/React-Calculator",
   "dependencies": {
-    "@testing-library/jest-dom": "5.11.10",
+    "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "11.2.7",
     "@testing-library/user-event": "12.8.3",
     "bootstrap": "4.6.2",
