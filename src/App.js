@@ -6,7 +6,32 @@ import { RiDivideLine } from 'react-icons/ri'
 import { RxCross2 } from 'react-icons/rx'
 import { BiMinus } from 'react-icons/bi'
 import { AiOutlinePlus } from 'react-icons/ai'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+
+// animation variants
+const leftVariant = {
+    enter: {
+        x: -1000
+    },
+    center: {
+        x: 0
+    },
+    exit: {
+        x: -1000
+    }
+}
+
+const rightVariant = {
+    enter: {
+        x: 1000
+    },
+    center: {
+        x: 0
+    },
+    exit: {
+        x: 1000
+    }
+}
 
 function App() {
     const [result, setResult] = useState(0);
@@ -14,7 +39,6 @@ function App() {
     const [queryArray, setQueryArray] = useState([]);
     const isMb = IsMobile()
     const [show123, setShow123] = useState(true)
-    const ref = useRef(0)
     
     // control initial render of left operators
 
@@ -547,49 +571,55 @@ function App() {
         <div className='min-h-full py-10 w-full flex flex-col justify-center items-center bg-white/90 backdrop-blur-sm'>
             <h1 className='mb-2 text-gray-700 text-xl font-[500]'>React Calculator</h1>
             <p className='text-xs mb-10'>By <a href='https://dorji-dev.vercel.app' target='_blank' className='text-gray-500 underline'>Dorji Tshering</a></p>
-            <div className='rounded-lg w-[90%] xs:w-auto xs:mx-5 p-5 xs:p-10 bg-white shadow-mainShadow'>
+            <div className='rounded-lg w-[90%] xs:w-auto xs:mx-5 p-5 xs:p-10 bg-white shadow-mainShadow overflow-hidden'>
                 <Display query={query} queryArray={queryArray} result={result}/>
-                <div className="flex pt-2">
+                <div className={`flex pt-2 relative ${isMb && 'h-[225px]'}`}>
                     {
                         isMb ? (
-                            show123 && (
-                                <>
-                                    <motion.div 
-                                        className='grid grid-cols-4 gap-1 w-full'
-                                        initial={{x: ref.current === 0 ? 0:-1000}}
-                                        animate={{x: 0}}
-                                        transition={{
-                                            x: { type: "spring", stiffness: 300, damping: 30, duration: 2 },
-                                            opacity: { duration: 0.2 }
-                                        }}
-                                    >
-                                        <Button value={'('} onClick={displayQuery} />
-                                        <Button value={')'} onClick={displayQuery} />
-                                        <Button value={'%'} onClick={displayQuery} />
-                                        <Button value={'C'} onClick={clear} />
-
-                                        <Button value={7} onClick={displayQuery} />
-                                        <Button value={8} onClick={displayQuery} />
-                                        <Button value={9} onClick={displayQuery} />
-                                        <Button value={<RiDivideLine/>} onClick={() => displayQuery('/')} />
-
-                                        <Button value={4} onClick={displayQuery}  />
-                                        <Button value={5} onClick={displayQuery} />
-                                        <Button value={6} onClick={displayQuery} />
-                                        <Button value={<RxCross2/>} onClick={() => displayQuery('x')} />
-
-                                        <Button value={1} onClick={displayQuery} />
-                                        <Button value={2} onClick={displayQuery} />
-                                        <Button value={3} onClick={displayQuery} />
-                                        <Button value={<BiMinus/>} onClick={() => displayQuery('-')} />
-
-                                        <Button value={0} onClick={displayQuery} />
-                                        <Button value={'.'} onClick={displayQuery} />
-                                        <Button value={'='}  onClick={equals} />
-                                        <Button value={<AiOutlinePlus/>} onClick={() => displayQuery('+')} />
-                                    </motion.div>
-                                </>
-                            )
+                           <AnimatePresence initial={false}>
+                                {
+                                    show123 && (
+                                        <>
+                                            <motion.div 
+                                                key={100}
+                                                className='grid grid-cols-4 gap-1 w-full absolute'
+                                                initial='enter'
+                                                animate='center'
+                                                exit='exit'
+                                                variants={leftVariant}
+                                                transition={{
+                                                    x: {type: 'spring', stiffness: 300, damping: 30, duration: 2 }
+                                                }}
+                                            >
+                                                <Button value={'('} onClick={displayQuery} />
+                                                <Button value={')'} onClick={displayQuery} />
+                                                <Button value={'%'} onClick={displayQuery} />
+                                                <Button value={'C'} onClick={clear} />
+        
+                                                <Button value={7} onClick={displayQuery} />
+                                                <Button value={8} onClick={displayQuery} />
+                                                <Button value={9} onClick={displayQuery} />
+                                                <Button value={<RiDivideLine/>} onClick={() => displayQuery('/')} />
+        
+                                                <Button value={4} onClick={displayQuery}  />
+                                                <Button value={5} onClick={displayQuery} />
+                                                <Button value={6} onClick={displayQuery} />
+                                                <Button value={<RxCross2/>} onClick={() => displayQuery('x')} />
+        
+                                                <Button value={1} onClick={displayQuery} />
+                                                <Button value={2} onClick={displayQuery} />
+                                                <Button value={3} onClick={displayQuery} />
+                                                <Button value={<BiMinus/>} onClick={() => displayQuery('-')} />
+        
+                                                <Button value={0} onClick={displayQuery} />
+                                                <Button value={'.'} onClick={displayQuery} />
+                                                <Button value={'='}  onClick={equals} />
+                                                <Button value={<AiOutlinePlus/>} onClick={() => displayQuery('+')} />
+                                            </motion.div>
+                                        </>
+                                    )
+                                }
+                           </AnimatePresence>
                         ):(
                             <div className='grid grid-cols-4 gap-1 mr-1'>
                                 <Button value={'('} onClick={displayQuery} />
@@ -622,28 +652,34 @@ function App() {
 
                     {
                         isMb ? (
-                            !show123 && (
-                                <motion.div 
-                                    className='grid grid-cols-2 gap-1 w-full'
-                                    initial={{x: 1000}}
-                                    animate={{x: 0}}
-                                    transition={{
-                                        x: { type: "spring", stiffness: 300, damping: 30, duration: 2 },
-                                        opacity: { duration: 0.2 }
-                                    }}
-                                >
-                                    <Button value={'+/-'} onClick={displayQuery} />
-                                    <Button value={'sin'} onClick={displayQuery} />
-                                    <Button value={'cos'} onClick={displayQuery} />
-                                    <Button value={'tan'} onClick={displayQuery} />
-                                    <Button value={'log'} onClick={displayQuery} />
-                                    <Button value={<>&pi;</>} onClick={pi} />
-                                    <Button value={'^'} onClick={displayQuery} />
-                                    <Button value={<>&#8730;</>} onClick={sqrt} />
-                                    <Button value={'ln'} onClick={displayQuery} />
-                                    <Button value={'CE'}  onClick={cut} />
-                                </motion.div>
-                            )
+                            <AnimatePresence>
+                                {
+                                    !show123 && (
+                                        <motion.div 
+                                            key={200}
+                                            className='grid grid-cols-2 gap-1 w-full absolute'
+                                            initial='enter'
+                                            animate='center'
+                                            exit='exit'
+                                            variants={rightVariant}
+                                            transition={{
+                                                x: { type: "spring", stiffness: 300, damping: 30, duration: 2 }
+                                            }}
+                                        >
+                                            <Button value={'+/-'} onClick={displayQuery} />
+                                            <Button value={'sin'} onClick={displayQuery} />
+                                            <Button value={'cos'} onClick={displayQuery} />
+                                            <Button value={'tan'} onClick={displayQuery} />
+                                            <Button value={'log'} onClick={displayQuery} />
+                                            <Button value={<>&pi;</>} onClick={pi} />
+                                            <Button value={'^'} onClick={displayQuery} />
+                                            <Button value={<>&#8730;</>} onClick={sqrt} />
+                                            <Button value={'ln'} onClick={displayQuery} />
+                                            <Button value={'CE'}  onClick={cut} />
+                                        </motion.div>
+                                    )
+                                }
+                            </AnimatePresence>
                         ):(
                             <div className='grid grid-cols-2 gap-1'>
                                 <Button value={'+/-'} onClick={displayQuery} />
@@ -666,10 +702,7 @@ function App() {
                             <button onClick={() => setShow123(true)} 
                                 className={`py-2 px-7 border border-r-0 rounded-tl-full rounded-bl-full
                                 ${show123 && 'text-theme bg-theme/10 border-theme/10'}`}>123</button>
-                            <button onClick={() => {
-                                setShow123(false)
-                                if(ref.current === 0) ref.current = 1
-                            }} 
+                            <button onClick={() => setShow123(false)} 
                                 className={`py-2 px-7 border border-l-0 rounded-tr-full rounded-br-full
                                 ${!show123 && 'text-theme bg-theme/10 border-theme/10'}`}>Fn</button>
                         </div>
