@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Button from './components/Button'
 import Display from './components/Display'
 import IsMobile from './components/isMobile'
@@ -6,6 +6,7 @@ import { RiDivideLine } from 'react-icons/ri'
 import { RxCross2 } from 'react-icons/rx'
 import { BiMinus } from 'react-icons/bi'
 import { AiOutlinePlus } from 'react-icons/ai'
+import { motion } from 'framer-motion'
 
 function App() {
     const [result, setResult] = useState(0);
@@ -13,7 +14,10 @@ function App() {
     const [queryArray, setQueryArray] = useState([]);
     const isMb = IsMobile()
     const [show123, setShow123] = useState(true)
+    const ref = useRef(0)
     
+    // control initial render of left operators
+
     useEffect(() =>{
         if(queryArray.length === 1 && query.length === 1){
         return;
@@ -549,32 +553,42 @@ function App() {
                     {
                         isMb ? (
                             show123 && (
-                                <div className='grid grid-cols-4 gap-1 w-full'>
-                                    <Button value={'('} onClick={displayQuery} />
-                                    <Button value={')'} onClick={displayQuery} />
-                                    <Button value={'%'} onClick={displayQuery} />
-                                    <Button value={'C'} onClick={clear} />
+                                <>
+                                    <motion.div 
+                                        className='grid grid-cols-4 gap-1 w-full'
+                                        initial={{x: ref.current === 0 ? 0:-1000}}
+                                        animate={{x: 0}}
+                                        transition={{
+                                            x: { type: "spring", stiffness: 300, damping: 30, duration: 2 },
+                                            opacity: { duration: 0.2 }
+                                        }}
+                                    >
+                                        <Button value={'('} onClick={displayQuery} />
+                                        <Button value={')'} onClick={displayQuery} />
+                                        <Button value={'%'} onClick={displayQuery} />
+                                        <Button value={'C'} onClick={clear} />
 
-                                    <Button value={7} onClick={displayQuery} />
-                                    <Button value={8} onClick={displayQuery} />
-                                    <Button value={9} onClick={displayQuery} />
-                                    <Button value={<RiDivideLine/>} onClick={() => displayQuery('/')} />
+                                        <Button value={7} onClick={displayQuery} />
+                                        <Button value={8} onClick={displayQuery} />
+                                        <Button value={9} onClick={displayQuery} />
+                                        <Button value={<RiDivideLine/>} onClick={() => displayQuery('/')} />
 
-                                    <Button value={4} onClick={displayQuery}  />
-                                    <Button value={5} onClick={displayQuery} />
-                                    <Button value={6} onClick={displayQuery} />
-                                    <Button value={<RxCross2/>} onClick={() => displayQuery('x')} />
+                                        <Button value={4} onClick={displayQuery}  />
+                                        <Button value={5} onClick={displayQuery} />
+                                        <Button value={6} onClick={displayQuery} />
+                                        <Button value={<RxCross2/>} onClick={() => displayQuery('x')} />
 
-                                    <Button value={1} onClick={displayQuery} />
-                                    <Button value={2} onClick={displayQuery} />
-                                    <Button value={3} onClick={displayQuery} />
-                                    <Button value={<BiMinus/>} onClick={() => displayQuery('-')} />
+                                        <Button value={1} onClick={displayQuery} />
+                                        <Button value={2} onClick={displayQuery} />
+                                        <Button value={3} onClick={displayQuery} />
+                                        <Button value={<BiMinus/>} onClick={() => displayQuery('-')} />
 
-                                    <Button value={0} onClick={displayQuery} />
-                                    <Button value={'.'} onClick={displayQuery} />
-                                    <Button value={'='}  onClick={equals} />
-                                    <Button value={<AiOutlinePlus/>} onClick={() => displayQuery('+')} />
-                                </div>
+                                        <Button value={0} onClick={displayQuery} />
+                                        <Button value={'.'} onClick={displayQuery} />
+                                        <Button value={'='}  onClick={equals} />
+                                        <Button value={<AiOutlinePlus/>} onClick={() => displayQuery('+')} />
+                                    </motion.div>
+                                </>
                             )
                         ):(
                             <div className='grid grid-cols-4 gap-1 mr-1'>
@@ -609,7 +623,15 @@ function App() {
                     {
                         isMb ? (
                             !show123 && (
-                                <div className='grid grid-cols-2 gap-1 w-full'>
+                                <motion.div 
+                                    className='grid grid-cols-2 gap-1 w-full'
+                                    initial={{x: 1000}}
+                                    animate={{x: 0}}
+                                    transition={{
+                                        x: { type: "spring", stiffness: 300, damping: 30, duration: 2 },
+                                        opacity: { duration: 0.2 }
+                                    }}
+                                >
                                     <Button value={'+/-'} onClick={displayQuery} />
                                     <Button value={'sin'} onClick={displayQuery} />
                                     <Button value={'cos'} onClick={displayQuery} />
@@ -620,7 +642,7 @@ function App() {
                                     <Button value={<>&#8730;</>} onClick={sqrt} />
                                     <Button value={'ln'} onClick={displayQuery} />
                                     <Button value={'CE'}  onClick={cut} />
-                                </div>
+                                </motion.div>
                             )
                         ):(
                             <div className='grid grid-cols-2 gap-1'>
@@ -644,7 +666,10 @@ function App() {
                             <button onClick={() => setShow123(true)} 
                                 className={`py-2 px-7 border border-r-0 rounded-tl-full rounded-bl-full
                                 ${show123 && 'text-theme bg-theme/10 border-theme/10'}`}>123</button>
-                            <button onClick={() => setShow123(false)} 
+                            <button onClick={() => {
+                                setShow123(false)
+                                if(ref.current === 0) ref.current = 1
+                            }} 
                                 className={`py-2 px-7 border border-l-0 rounded-tr-full rounded-br-full
                                 ${!show123 && 'text-theme bg-theme/10 border-theme/10'}`}>Fn</button>
                         </div>
