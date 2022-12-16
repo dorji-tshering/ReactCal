@@ -1,0 +1,16 @@
+@tailwind components;
+@tailwind utilities;
+@tailwind base;
+
+html, body, #root {
+    height: 100%;
+    width: 100%;
+}
+
+body * {
+    font-family: 'Figtree', 'Sans-serif';
+}
+
+body {
+    background-image: radial-gradient( circle 609.6px at 21.5% 78.8%,  rgba(37,99,219,1) 0%, rgba(233,45,181,1) 89.9% );
+}
