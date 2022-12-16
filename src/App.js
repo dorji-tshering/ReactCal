@@ -7,7 +7,6 @@ import { RxCross2 } from 'react-icons/rx'
 import { BiMinus } from 'react-icons/bi'
 import { AiOutlinePlus } from 'react-icons/ai'
 
-
 function App() {
     const [result, setResult] = useState(0);
     const [query, setQuery] = useState([]);
