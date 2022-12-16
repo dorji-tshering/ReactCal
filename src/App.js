@@ -39,9 +39,7 @@ function App() {
     const [queryArray, setQueryArray] = useState([]);
     const isMb = IsMobile()
     const [show123, setShow123] = useState(true)
-    
-    // control initial render of left operators
-
+  
     useEffect(() =>{
         if(queryArray.length === 1 && query.length === 1){
         return;
