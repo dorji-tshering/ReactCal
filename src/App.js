@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Button from './components/Button'
 import Display from './components/Display'
 import IsMobile from './components/isMobile'
@@ -549,7 +549,7 @@ function App() {
     return (
         <div className='min-h-full py-10 w-full flex flex-col justify-center items-center bg-white/90 backdrop-blur-sm'>
             <h1 className='mb-2 text-gray-700 text-xl font-[500]'>React Calculator</h1>
-            <p className='text-xs mb-10'>By <a href='https://dorji-dev.vercel.app' target='_blank' className='text-gray-500 underline'>Dorji Tshering</a></p>
+            <p className='text-xs mb-10'>By <a href='https://dorji-dev.vercel.app' target='_blank' rel="noreferrer" className='text-gray-500 underline'>Dorji Tshering</a></p>
             <div className='rounded-lg w-[90%] xs:w-auto xs:mx-5 p-5 xs:p-10 bg-white shadow-mainShadow overflow-hidden'>
                 <Display query={query} queryArray={queryArray} result={result}/>
                 <div className={`flex pt-2 relative ${isMb && 'h-[225px]'}`}>
@@ -688,11 +688,11 @@ function App() {
                     )
                 }
             </div>
-            <p className='mt-10 text-gray-500'>My first ever <a href='https://reactjs.org/' target='_blank' className='text-black hover:text-theme transition-all'>ReactJs</a> application.</p>
+            <p className='mt-10 text-gray-500'>My first ever <a href='https://reactjs.org/' target='_blank' rel="noreferrer" className='text-black hover:text-theme transition-all'>ReactJs</a> application.</p>
             <p className='mt-2 text-sm text-gray-400'>Udpated whenever I get time.</p>
             <div className='mt-2'>
                 <a href='https://github.com/dorji-tshering/React-Calculator' 
-                    target='_blank' className='text-theme underline'>Source Code</a>
+                    target='_blank' rel="noreferrer" className='text-theme underline'>Source Code</a>
             </div>
         </div>
     );
